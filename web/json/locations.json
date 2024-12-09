@@ -1,0 +1,546 @@
+	
+index	
+0	
+id	1
+locations	
+0	"north_carolina-usa"
+1	"georgia-usa"
+2	"los_angeles-usa"
+3	"saitama-japan"
+4	"osaka-japan"
+5	"nagoya-japan"
+6	"penrose-new_zealand"
+7	"dunedin-new_zealand"
+dates	"https://groupietrackers.herokuapp.com/api/dates/1"
+1	
+id	2
+locations	
+0	"playa_del_carmen-mexico"
+1	"papeete-french_polynesia"
+2	"noumea-new_caledonia"
+dates	"https://groupietrackers.herokuapp.com/api/dates/2"
+2	
+id	3
+locations	
+0	"london-uk"
+1	"lausanne-switzerland"
+2	"lyon-france"
+dates	"https://groupietrackers.herokuapp.com/api/dates/3"
+3	
+id	4
+locations	
+0	"victoria-australia"
+1	"new_south_wales-australia"
+2	"queensland-australia"
+3	"auckland-new_zealand"
+4	"yogyakarta-indonesia"
+5	"bratislava-slovakia"
+6	"budapest-hungary"
+7	"minsk-belarus"
+dates	"https://groupietrackers.herokuapp.com/api/dates/4"
+4	
+id	5
+locations	
+0	"california-usa"
+1	"nevada-usa"
+2	"georgia-usa"
+dates	"https://groupietrackers.herokuapp.com/api/dates/5"
+5	
+id	6
+locations	
+0	"california-usa"
+1	"sao_paulo-brazil"
+2	"san_isidro-argentina"
+dates	"https://groupietrackers.herokuapp.com/api/dates/6"
+6	
+id	7
+locations	
+0	"california-usa"
+1	"arizona-usa"
+2	"texas-usa"
+dates	"https://groupietrackers.herokuapp.com/api/dates/7"
+7	
+id	8
+locations	
+0	"stockholm-sweden"
+1	"werchter-belgium"
+2	"lisbon-portugal"
+3	"bilbao-spain"
+4	"georgia-usa"
+5	"bogota-colombia"
+6	"sao_paulo-brazil"
+dates	"https://groupietrackers.herokuapp.com/api/dates/8"
+8	
+id	9
+locations	
+0	"new_york-usa"
+1	"dusseldorf-germany"
+2	"aarhus-denmark"
+3	"manchester-uk"
+dates	"https://groupietrackers.herokuapp.com/api/dates/9"
+9	
+id	10
+locations	
+0	"frankfurt-germany"
+1	"berlin-germany"
+2	"stockholm-sweden"
+3	"copenhagen-denmark"
+4	"werchter-belgium"
+dates	"https://groupietrackers.herokuapp.com/api/dates/10"
+10	
+id	11
+locations	
+0	"doha-qatar"
+1	"minnesota-usa"
+2	"illinois-usa"
+3	"california-usa"
+4	"mumbai-india"
+dates	"https://groupietrackers.herokuapp.com/api/dates/11"
+11	
+id	12
+locations	
+0	"abu_dhabi-united_arab_emirates"
+1	"new_york-usa"
+2	"pennsylvania-usa"
+dates	"https://groupietrackers.herokuapp.com/api/dates/12"
+12	
+id	13
+locations	
+0	"westcliff_on_sea-uk"
+1	"merkers-germany"
+2	"illinois-usa"
+dates	"https://groupietrackers.herokuapp.com/api/dates/13"
+13	
+id	14
+locations	
+0	"nevada-usa"
+1	"arizona-usa"
+2	"california-usa"
+dates	"https://groupietrackers.herokuapp.com/api/dates/14"
+14	
+id	15
+locations	
+0	"london-uk"
+1	"new_york-usa"
+2	"maine-usa"
+dates	"https://groupietrackers.herokuapp.com/api/dates/15"
+15	
+id	16
+locations	
+0	"berlin-germany"
+1	"copenhagen-denmark"
+2	"aarhus-denmark"
+3	"gothenburg-sweden"
+dates	"https://groupietrackers.herokuapp.com/api/dates/16"
+16	
+id	17
+locations	
+0	"florida-usa"
+1	"south_carolina-usa"
+2	"north_carolina-usa"
+dates	"https://groupietrackers.herokuapp.com/api/dates/17"
+17	
+id	18
+locations	
+0	"pagney_derriere_barine-france"
+1	"hamburg-germany"
+2	"boulogne_billancourt-france"
+3	"nimes-france"
+4	"sion-switzerland"
+5	"ostrava-czechia"
+6	"klagenfurt-austria"
+7	"freyming_merlebach-france"
+dates	"https://groupietrackers.herokuapp.com/api/dates/18"
+18	
+id	19
+locations	
+0	"nevada-usa"
+1	"london-uk"
+2	"manchester-uk"
+dates	"https://groupietrackers.herokuapp.com/api/dates/19"
+19	
+id	20
+locations	
+0	"zaragoza-spain"
+1	"madrid-spain"
+2	"barcelona-spain"
+dates	"https://groupietrackers.herokuapp.com/api/dates/20"
+20	
+id	21
+locations	
+0	"rio_de_janeiro-brazil"
+1	"recife-brazil"
+dates	"https://groupietrackers.herokuapp.com/api/dates/21"
+21	
+id	22
+locations	
+0	"california-usa"
+1	"leipzig-germany"
+2	"salem-germany"
+3	"monchengladbach-germany"
+4	"cuxhaven-germany"
+5	"skanderborg-denmark"
+6	"amsterdam-netherlands"
+7	"burriana-spain"
+8	"oulu-finland"
+9	"budapest-hungary"
+10	"napoca-romania"
+dates	"https://groupietrackers.herokuapp.com/api/dates/22"
+22	
+id	23
+locations	
+0	"riyadh-saudi_arabia"
+1	"rio_de_janeiro-brazil"
+2	"canton-usa"
+3	"quebec-canada"
+4	"new_york-usa"
+5	"california-usa"
+6	"las_vegas-usa"
+7	"mexico_city-mexico"
+8	"monterrey-mexico"
+9	"del_mar-usa"
+10	"berlin-germany"
+11	"lisbon-portugal"
+dates	"https://groupietrackers.herokuapp.com/api/dates/23"
+23	
+id	24
+locations	
+0	"washington-usa"
+1	"west_melbourne-australia"
+2	"amsterdam-netherlands"
+3	"paris-france"
+4	"manchester-uk"
+5	"missouri-usa"
+6	"chicago-usa"
+7	"birmingham-uk"
+8	"copenhagen-denmark"
+dates	"https://groupietrackers.herokuapp.com/api/dates/24"
+24	
+id	25
+locations	
+0	"west_melbourne-australia"
+1	"sydney-australia"
+2	"madison-usa"
+3	"toronto-canada"
+4	"cleveland-usa"
+5	"new_york-usa"
+6	"boston-usa"
+7	"texas-usa"
+8	"utah-usa"
+9	"california-usa"
+dates	"https://groupietrackers.herokuapp.com/api/dates/25"
+25	
+id	26
+locations	
+0	"manchester-uk"
+1	"glasgow-uk"
+2	"dublin-ireland"
+3	"cardiff-uk"
+4	"london-uk"
+5	"aberdeen-uk"
+6	"stockholm-sweden"
+7	"madrid-spain"
+8	"paris-france"
+9	"warsaw-poland"
+10	"berlin-germany"
+11	"milan-italy"
+dates	"https://groupietrackers.herokuapp.com/api/dates/26"
+26	
+id	27
+locations	
+0	"michigan-usa"
+1	"new_hampshire-usa"
+2	"new_york-usa"
+3	"warsaw-poland"
+4	"sochaux-france"
+5	"lyon-france"
+6	"eindhoven-netherlands"
+7	"oslo-norway"
+8	"amsterdam-netherlands"
+9	"colorado-usa"
+dates	"https://groupietrackers.herokuapp.com/api/dates/27"
+27	
+id	28
+locations	
+0	"jakarta-indonesia"
+1	"huizhou-china"
+2	"texas-usa"
+3	"michigan-usa"
+4	"changzhou-china"
+5	"hong_kong-china"
+6	"colorado-usa"
+7	"sanya-china"
+8	"aalborg-denmark"
+9	"washington-usa"
+10	"new_york-usa"
+11	"toronto-canada"
+12	"seattle-usa"
+dates	"https://groupietrackers.herokuapp.com/api/dates/28"
+28	
+id	29
+locations	
+0	"omaha-usa"
+1	"kansas_city-usa"
+2	"st_louis-usa"
+3	"indianapolis-usa"
+4	"rosemont-usa"
+5	"grand_rapids-usa"
+6	"toronto-usa"
+7	"montreal-usa"
+8	"newark-usa"
+9	"uniondale-usa"
+10	"philadelphia-usa"
+11	"hershey-usa"
+12	"pittsburgh-usa"
+13	"washington-usa"
+14	"columbia-usa"
+dates	"https://groupietrackers.herokuapp.com/api/dates/29"
+29	
+id	30
+locations	
+0	"santiago-chile"
+1	"sao_paulo-brazil"
+2	"los_angeles-usa"
+3	"houston-usa"
+4	"atlanta-usa"
+5	"new_orleans-usa"
+6	"philadelphia-usa"
+7	"london-uk"
+8	"frauenfeld-switzerland"
+9	"turku-finland"
+dates	"https://groupietrackers.herokuapp.com/api/dates/30"
+30	
+id	31
+locations	
+0	"las_vegas-usa"
+1	"brooklyn-usa"
+2	"boston-usa"
+3	"washington-usa"
+4	"philadelphia-usa"
+5	"montreal-canada"
+6	"toronto-usa"
+7	"new_york-usa"
+dates	"https://groupietrackers.herokuapp.com/api/dates/31"
+31	
+id	32
+locations	
+0	"frankfurt-germany"
+1	"berlin-germany"
+2	"stockholm-sweden"
+3	"copenhagen-denmark"
+4	"imola-italy"
+5	"vienna-austria"
+6	"london-uk"
+7	"krakow-poland"
+8	"budapest-hungary"
+9	"zurich-switzerland"
+dates	"https://groupietrackers.herokuapp.com/api/dates/32"
+32	
+id	33
+locations	
+0	"philadelphia-usa"
+1	"paris-france"
+2	"amityville-usa"
+3	"chicago-usa"
+4	"minneapolis-usa"
+5	"detroit-usa"
+dates	"https://groupietrackers.herokuapp.com/api/dates/33"
+33	
+id	34
+locations	
+0	"oakland-usa"
+1	"charlotte-usa"
+2	"los_angeles-usa"
+3	"berlin-germany"
+4	"houston-usa"
+5	"chicago-usa"
+6	"inglewood-usa"
+7	"madrid-spain"
+dates	"https://groupietrackers.herokuapp.com/api/dates/34"
+34	
+id	35
+locations	
+0	"windsor-canada"
+1	"brooklyn-usa"
+2	"birmingham-uk"
+3	"cincinnati-usa"
+4	"anaheim-usa"
+5	"chicago-usa"
+dates	"https://groupietrackers.herokuapp.com/api/dates/35"
+35	
+id	36
+locations	
+0	"manila-philippines"
+1	"mumbai-india"
+2	"auckland-new_zealand"
+3	"brisbane-australia"
+4	"melbourne-australia"
+5	"sydney-australia"
+dates	"https://groupietrackers.herokuapp.com/api/dates/36"
+36	
+id	37
+locations	
+0	"bogota-colombia"
+1	"rio_de_janeiro-brazil"
+2	"sao_paulo-brazil"
+3	"santiago-chile"
+4	"san_isidro-argentina"
+5	"lima-peru"
+dates	"https://groupietrackers.herokuapp.com/api/dates/37"
+37	
+id	38
+locations	
+0	"paris-france"
+1	"groningen-netherlands"
+2	"antwerp-belgium"
+3	"vienna-austria"
+4	"glasgow-uk"
+5	"london-uk"
+dates	"https://groupietrackers.herokuapp.com/api/dates/38"
+38	
+id	39
+locations	
+0	"mexico_city-mexico"
+1	"pico_rivera-usa"
+2	"chicago-usa"
+3	"boston-usa"
+4	"philadelphia-usa"
+dates	"https://groupietrackers.herokuapp.com/api/dates/39"
+39	
+id	40
+locations	
+0	"london-uk"
+1	"berwyn-usa"
+2	"georgia-usa"
+3	"new_york-usa"
+4	"dallas-usa"
+5	"houston-usa"
+dates	"https://groupietrackers.herokuapp.com/api/dates/40"
+40	
+id	41
+locations	
+0	"california-usa"
+1	"birmingham-uk"
+2	"brixton-uk"
+3	"london-uk"
+4	"rotselaar-belgium"
+dates	"https://groupietrackers.herokuapp.com/api/dates/41"
+41	
+id	42
+locations	
+0	"california-usa"
+1	"rio_de_janeiro-brazil"
+2	"los_angeles-usa"
+3	"alabama-usa"
+4	"massachusetts-usa"
+5	"athens-greece"
+6	"florence-italy"
+7	"landgraaf-netherlands"
+dates	"https://groupietrackers.herokuapp.com/api/dates/42"
+42	
+id	43
+locations	
+0	"sydney-australia"
+1	"melbourne-australia"
+2	"burswood-australia"
+3	"wellington-new_zealand"
+4	"abu_dhabi-united_arab_emirates"
+dates	"https://groupietrackers.herokuapp.com/api/dates/43"
+43	
+id	44
+locations	
+0	"madrid-spain"
+1	"seville-spain"
+2	"los_angeles-usa"
+3	"bangkok-thailand"
+4	"manila-philippines"
+5	"taipei-taiwan"
+6	"hong_kong-china"
+7	"seoul-south_korea"
+dates	"https://groupietrackers.herokuapp.com/api/dates/44"
+44	
+id	45
+locations	
+0	"munich-germany"
+1	"mannheim-germany"
+2	"san_francisco-usa"
+3	"santiago-chile"
+4	"buenos_aires-argentina"
+5	"porto_alegre-brazil"
+6	"sao_paulo-brazil"
+7	"belo_horizonte-brazil"
+dates	"https://groupietrackers.herokuapp.com/api/dates/45"
+45	
+id	46
+locations	
+0	"california-usa"
+1	"sao_paulo-brazil"
+2	"porto_alegre-brazil"
+3	"la_plata-argentina"
+4	"london-uk"
+dates	"https://groupietrackers.herokuapp.com/api/dates/46"
+46	
+id	47
+locations	
+0	"dubai-united_arab_emirates"
+1	"willemstad-netherlands_antilles"
+2	"florida-usa"
+3	"florida-usa"
+4	"mexico_city-mexico"
+5	"santiago-chile"
+6	"sao_paulo-brazil"
+7	"brasilia-brazil"
+dates	"https://groupietrackers.herokuapp.com/api/dates/47"
+47	
+id	48
+locations	
+0	"texas-usa"
+1	"oklahoma-usa"
+2	"california-usa"
+3	"illinois-usa"
+4	"scheessel-germany"
+5	"st_gallen-switzerland"
+6	"gdynia-poland"
+7	"arras-france"
+dates	"https://groupietrackers.herokuapp.com/api/dates/48"
+48	
+id	49
+locations	
+0	"washington-usa"
+1	"california-usa"
+2	"california-usa"
+3	"arizona-usa"
+4	"florida-usa"
+dates	"https://groupietrackers.herokuapp.com/api/dates/49"
+49	
+id	50
+locations	
+0	"mexico_city-mexico"
+1	"sao_paulo-brazil"
+2	"buenos_aires-argentina"
+3	"santiago-chile"
+4	"lima-peru"
+dates	"https://groupietrackers.herokuapp.com/api/dates/50"
+50	
+id	51
+locations	
+0	"bogota-colombia"
+1	"san_jose-costa_rica"
+2	"nevada-usa"
+3	"massachusetts-usa"
+4	"massachusetts-usa"
+5	"nickelsdorf-austria"
+6	"milan-italy"
+7	"lisbon-portugal"
+dates	"https://groupietrackers.herokuapp.com/api/dates/51"
+51	
+id	52
+locations	
+0	"oregon-usa"
+1	"vancouver-canada"
+2	"nevada-usa"
+3	"colorado-usa"
+4	"munich-germany"
+5	"prague-czechia"
+6	"milan-italy"
+dates	"https://groupietrackers.herokuapp.com/api/dates/52"

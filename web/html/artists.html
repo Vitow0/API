@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ .Name }}</title>
+    <link rel="stylesheet" href="web/css/style.css">
+</head>
+<body>
+    <h1>{{ .Name }}</h1>
+    <img src="{{ .Images }}" alt="Game Image">
+    <p>Date: {{ .Date }}</p>
+    <p>Rate: {{ .Rate }}</p>
+    <ul>
+        {{ range .Members }}
+        <li>{{ . }}</li>
+        {{ end }}
+    </ul>
+    <a href="/artists">Back to Artists</a>
+    <form action="/filters" method="GET">
+        <label>Start Year:</label>
+        <input type="number" name="Date" />
+        <label>Location:</label>
+        <input type="map" name="Location" />
+        <button type="submit">Apply Filters</button>
+    </form>
+</body>
+</html>
