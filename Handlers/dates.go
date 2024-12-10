@@ -4,11 +4,12 @@ import (
 	"encoding/json"
 	"net/http"
 	"text/template"
+	"log"
 )
 
 type Date struct {
-	ID      int      `json:"id"`
-	Dates   int      `json:"dates"`
+    ID    int      `json:"id"`
+    Dates []string `json:"dates"` 
 }
 func FetchDates()([]Date, error) {
 	response, err := http.Get("https://groupietrackers.herokuapp.com/api/dates")
@@ -26,14 +27,16 @@ func FetchDates()([]Date, error) {
 }
 
 func DatesHandler(w http.ResponseWriter, r *http.Request) {
-	Dates, err := FetchDates()
+	dates, err := FetchDates()
 	if err != nil {
+		log.Printf("Error fetching dates: %v", err)
 		http.Error(w, "Unable to fetch Dates", http.StatusInternalServerError)
 		return
 	}
 
-	tmpl, err := template.ParseFiles("web/html/locations.html")
+	tmpl, err := template.ParseFiles("web/html/dates.html")
 	if err != nil {
+		log.Printf("Error loading template: %v", err)
 		http.Error(w, "Unable to load template", http.StatusInternalServerError)
 		return
 	}
@@ -41,10 +44,11 @@ func DatesHandler(w http.ResponseWriter, r *http.Request) {
 	data := struct {
 		Dates []Date
 	}{
-		Dates: Dates,
+		Dates: dates,
 	}
 
 	if err := tmpl.Execute(w, data); err != nil {
+		log.Printf("Error rendering template: %v", err)
 		http.Error(w, "Unable to render template", http.StatusInternalServerError)
 	}
 }

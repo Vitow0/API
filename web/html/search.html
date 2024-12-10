@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Artists</title>
+    <link rel="stylesheet" href="/web/css/artists.css">
+</head>
+<body>
+    <h1>Search Artists</h1>
+    <form action="/search" method="GET">
+        <input type="text" name="q" placeholder="Search by artist or member..." required>
+        <button type="submit">Search</button>
+    </form>
+
+    <h2>Search Results</h2>
+    <ul>
+        {{ range .Results }}
+        <li>
+            <a href="/artists/{{ .ID }}">
+                <img src="{{ .Image }}" alt="{{ .Name }}" width="50">
+                {{ .Name }}
+            </a>
+        </li>
+        {{ else }}
+        <p>No results found.</p>
+        {{ end }}
+    </ul>
+
+    <a href="/artists">Back to Home</a>
+    
+</body>
+</html>

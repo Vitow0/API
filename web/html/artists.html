@@ -3,26 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ .Name }}</title>
-    <link rel="stylesheet" href="web/css/style.css">
+    <title>Artists</title>
+    <link rel="stylesheet" href="/web/css/artists.css">
 </head>
 <body>
-    <h1>{{ .Name }}</h1>
-    <img src="{{ .Images }}" alt="Game Image">
-    <p>Date: {{ .Date }}</p>
-    <p>Rate: {{ .Rate }}</p>
+    <h1>Artists</h1>
     <ul>
-        {{ range .Members }}
-        <li>{{ . }}</li>
+        {{ range .Artists }}
+        <li>
+            <h2>{{ .Name }}</h2>
+            <img src="{{ .Image }}" alt="Image of {{ .Name }}" width="150">
+            <p>Members:</p>
+            <ul>
+                {{ range .Members }}
+                <li>{{ . }}</li>
+                {{ end }}
+            </ul>
+            <p>Locations: {{ .Locations }}</p>
+            <p>Dates: {{ range .Dates }} {{ . }}, {{ end }}</p>
+        </li>
+        {{ else }}
+        <p>No artists found.</p>
         {{ end }}
     </ul>
-    <a href="/artists">Back to Artists</a>
-    <form action="/filters" method="GET">
-        <label>Start Year:</label>
-        <input type="number" name="Date" />
-        <label>Location:</label>
-        <input type="map" name="Location" />
-        <button type="submit">Apply Filters</button>
-    </form>
 </body>
 </html>

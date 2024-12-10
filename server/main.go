@@ -7,15 +7,15 @@ import (
 )
 
 type Web struct {
-	ID           int      `json:"id"`
-	Name         string   `json:"name"`
-	Image        string   `json:"image"`
-	Dates    	 int      `json:"dates"`
-	Locations      []string `json:"locations"`
+    ID       int      `json:"id"`
+    Name     string   `json:"name"`
+    Image    string   `json:"image"`
+    Dates    []string `json:"dates"`
+    Locations []string `json:"locations"`
 }
 
 func Default_Web() ([]Web, error) {
-	respond, err := http.Get("https://groupietrackers.herokuapp.com/api/")
+	respond, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
 	if err != nil {
 		return nil, err
 	}
@@ -34,6 +34,8 @@ func main() {
 	http.HandleFunc("/locations", handlers.LocationsHandler)
 	http.HandleFunc("/relations", handlers.RelationsHandler)
 	http.HandleFunc("/dates", handlers.DatesHandler)
+	http.HandleFunc("/filters", handlers.FiltersHandler)
+	http.HandleFunc("/search", handlers.SearchHandler)
 
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
