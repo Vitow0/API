@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Filter Artists</title>
-    <link rel="stylesheet" href="/web/css/artists.css">
+    <link rel="stylesheet" href="API/web/css/filter.css">
 </head>
 <body>
     <h1>Filter Artists</h1>
     <form action="/filters" method="GET">
-        <label for="dates">Start Year:</label>
+        <label for="dates">Dates:</label>
         <input type="text" id="dates" name="dates" placeholder="YYYY-MM-DD">
 
         <label for="memberCount">Number of Members:</label>
@@ -31,7 +31,6 @@
         <p>No artists match your filters.</p>
         {{ end }}
     </ul>
-
-    <a href="/artists">Back to Home</a>
+    <a class="back"href="/artists">Back to Home</a>
 </body>
 </html>

@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artists</title>
-    <link rel="stylesheet" href="/web/css/artists.css">
+    <link rel="stylesheet" href="API/web/css/artists.css">
 </head>
 <body>
+    
+    <p><a class="search" href="/search">Search</a></p>
+    <p><a class="filters" href="/filters">Filters</a>
     <h1>Artists</h1>
     <ul>
         {{ range .Artists }}
@@ -19,7 +22,7 @@
                 <li>{{ . }}</li>
                 {{ end }}
             </ul>
-            <p>Locations: {{ .Locations }}</p>
+            <p>Location: {{ .Locations }}</p>
             <p>Dates: {{ range .Dates }} {{ . }}, {{ end }}</p>
         </li>
         {{ else }}

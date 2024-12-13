@@ -7,5 +7,23 @@
     <link rel="stylesheet" href="/web/css/artists.css">
 </head>
 <body>
-    <h1>Dates Artists</h1>
+    <h1>Dates des Artistes</h1>
+    <ul>
+        {{ range .Dates }}
+        <li>
+            <h2>Artiste ID: {{ .ID }}</h2>
+            <h3>Artiste Name: {{ .Name }}</h3>
+            <p>Dates:</p>
+            <ul>
+                {{ range .Dates }}
+                <li>{{ . }}</li>
+                {{ end }}
+            </ul>
+        </li>
+        {{ else }}
+        <p>Aucune date trouvée.</p>
+        {{ end }}
+    </ul>
+    <a href="/artists">Retour à la liste des artistes</a>
 </body>
+</html>

@@ -7,7 +7,7 @@ import (
     "log"
 )
 
-// Struct location for the Data
+// Struct location Data
 type Location struct {
 	ID       int      `json:"id"`
 	Locations []string `json:"locations"`
@@ -16,7 +16,7 @@ type Location struct {
     Lng  float64 `json:"lng"`
 }
 
-// function to get the data from API
+// function to get the data location from API
 func FetchLocations() ([]Location, error) {
 	response, err := http.Get("https://groupietrackers.herokuapp.com/api/locations")
 	if err != nil {
@@ -32,7 +32,7 @@ func FetchLocations() ([]Location, error) {
 	return locations, nil
 }
 
-// Function to display in the html
+// Function to display the location
 func LocationsHandler(w http.ResponseWriter, r *http.Request) {
     locations, err := FetchLocations()
     if err != nil {
@@ -47,7 +47,7 @@ func LocationsHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    jsonData, err := json.Marshal(locations) // Convert locations to JSON
+    jsonData, err := json.Marshal(locations) 
     if err != nil {
         http.Error(w, "Unable to encode locations", http.StatusInternalServerError)
         return
@@ -56,7 +56,7 @@ func LocationsHandler(w http.ResponseWriter, r *http.Request) {
     data := struct {
         LocationsJSON string
     }{
-        LocationsJSON: string(jsonData), // Pass JSON as a string
+        LocationsJSON: string(jsonData),
     }
 
     if err := tmpl.Execute(w, data); err != nil {

@@ -35,39 +35,66 @@ func FetchArtists() ([]Artist, error) {
 	return artists, nil
 }
 
-// Function to display the data 
-func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
+func FetchArtistDates() (map[int][]string, error) {
+	response, err := http.Get("https://groupietrackers.herokuapp.com/api/dates")
+	if err != nil {
+		return nil, err
+	}
+	defer response.Body.Close()
+	var dateResponse struct {
+		Index []struct {
+			ID    int      `json:"id"`
+			Dates []string `json:"dates"`
+		} `json:"index"`
+	}
+	err = json.NewDecoder(response.Body).Decode(&dateResponse)
+	if err != nil {
+		return nil, err
+	}
+	artistDates := make(map[int][]string)
+	for _, entry := range dateResponse.Index {
+		artistDates[entry.ID] = entry.Dates
+	}
+	return artistDates, nil
+}
 
-	// get data from API
+
+func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 	artists, err := FetchArtists()
 	if err != nil {
 		log.Printf("Error fetching artists: %v", err)
 		http.Error(w, "Unable to fetch artists", http.StatusInternalServerError)
 		return
 	}
+	artistDates, err := FetchArtistDates()
+	if err != nil {
+		log.Printf("Error fetching artist dates: %v", err)
+		http.Error(w, "Unable to fetch artist dates", http.StatusInternalServerError)
+		return
+	}
+	for i := range artists {
+		artists[i].Dates = artistDates[artists[i].ID]
+	}
 
-	// get the templates
 	tmpl, err := template.ParseFiles("web/html/artists.html")
+
 	if err != nil {
 		log.Printf("Error loading template: %v", err)
 		http.Error(w, "Unable to load template", http.StatusInternalServerError)
 		return
 	}
-
-	// give the data
 	data := struct {
 		Artists []Artist
 	}{
 		Artists: artists,
 	}
-
-	// Render the artists templates
 	if err := tmpl.Execute(w, data); err != nil {
 		log.Printf("Error rendering template: %v", err)
 		http.Error(w, "Unable to render template", http.StatusInternalServerError)
-		return
 	}
 }
+
+
 
 func FiltersHandler(w http.ResponseWriter, r *http.Request) {
 	artists, err := FetchArtists()
@@ -124,26 +151,38 @@ func FiltersHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func SearchHandler(w http.ResponseWriter, r *http.Request) {
-	query := strings.ToLower(r.URL.Query().Get("q"))
-	if query == "" {
-		http.Error(w, "Search query missing", http.StatusBadRequest)
-		return
-	}
+    query := strings.ToLower(r.URL.Query().Get("q"))
+    if query == "" {
+        tmpl, err := template.ParseFiles("web/html/search.html")
+        if err != nil {
+            http.Error(w, "Unable to load template", http.StatusInternalServerError)
+            return
+        }
 
-	artists, err := FetchArtists()
-	if err != nil {
-		http.Error(w, "Unable to fetch artists", http.StatusInternalServerError)
-		return
-	}
+        data := struct {
+            Message string
+        }{
+            Message: "Please enter a search query.",
+        }
 
-	var results []Artist
-	for _, artist := range artists {
-		if strings.Contains(strings.ToLower(artist.Name), query) ||
-			strings.Contains(strings.ToLower(strings.Join(artist.Members, " ")), query) {
-			results = append(results, artist)
-		}
-	}
+        tmpl.Execute(w, data)
+        return
+    }
 
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(results)
+    artists, err := FetchArtists()
+    if err != nil {
+        http.Error(w, "Unable to fetch artists", http.StatusInternalServerError)
+        return
+    }
+
+    var results []Artist
+    for _, artist := range artists {
+        if strings.Contains(strings.ToLower(artist.Name), query) ||
+            strings.Contains(strings.ToLower(strings.Join(artist.Members, " ")), query) {
+            results = append(results, artist)
+        }
+    }
+
+    w.Header().Set("Content-Type", "application/json")
+    json.NewEncoder(w).Encode(results)
 }
