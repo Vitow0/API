@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"net/http"
 	"groupie/Handlers"
 )
@@ -14,28 +13,14 @@ type Web struct {
     Locations []string `json:"locations"`
 }
 
-func Default_Web() ([]Web, error) {
-	respond, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
-	if err != nil {
-		return nil, err
-	}
-	defer respond.Body.Close()
-
-	var artists []Web
-	err = json.NewDecoder(respond.Body).Decode(&artists)
-	if err != nil {
-		return nil, err
-	}
-	return artists, nil
-}
-
 func main() {
-	http.HandleFunc("/artists", handlers.ArtistsHandler)
-	http.HandleFunc("/locations", handlers.LocationsHandler)
-	http.HandleFunc("/relations", handlers.RelationsHandler)
-	http.HandleFunc("/dates", handlers.DatesHandler)
-	http.HandleFunc("/filters", handlers.FiltersHandler)
-	http.HandleFunc("/search", handlers.SearchHandler)
+	http.HandleFunc("/artists", handlers.ArtistsHandler) // go to artists handlers (http://localhost:8080/artists)
+	http.HandleFunc("/locations", handlers.LocationsHandler) // go to locations handlers (http://localhost:8080/locations)
+	http.HandleFunc("/relations", handlers.RelationsHandler) // go to relations handlers (http://localhost:8080/relations)
+	http.HandleFunc("/dates", handlers.DatesHandler) // go to dates handlers (http://localhost:8080/dates)
+	http.HandleFunc("/filters", handlers.FiltersHandler) // go to filters (http://localhost:8080/filters)
+	http.Handle("/web/", http.StripPrefix("/web/", http.FileServer(http.Dir("web")))) // take the file css to relie for the templates html
+	http.HandleFunc("/search", handlers.SearchHandler) // go to search (http://localhost:8080/search)
 
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {

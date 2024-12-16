@@ -7,6 +7,7 @@ import (
 	"text/template"
 	"strconv"
 	"strings"
+	"fmt"
 )
 
 // Struct Artist 
@@ -21,18 +22,47 @@ type Artist struct {
 
 // Function to get the data from the API
 func FetchArtists() ([]Artist, error) {
-	response, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
-	if err != nil {
-		return nil, err
-	}
-	defer response.Body.Close()
+    response, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
+    if err != nil {
+        return nil, err
+    }
+    defer response.Body.Close()
 
-	var artists []Artist
-	err = json.NewDecoder(response.Body).Decode(&artists)
-	if err != nil {
-		return nil, err
-	}
-	return artists, nil
+    var artists []Artist
+    err = json.NewDecoder(response.Body).Decode(&artists)
+    if err != nil {
+        return nil, err
+    }
+
+    
+    for i := range artists {
+        
+        locations, err := FetchLocationsForArtist(artists[i].ID) 
+        if err == nil {
+            artists[i].Locations = strings.Join(locations, ", ") 
+        }
+    }
+
+    return artists, nil
+}
+
+
+func FetchLocationsForArtist(artistID int) ([]string, error) {
+    response, err := http.Get(fmt.Sprintf("https://groupietrackers.herokuapp.com/api/locations/%d", artistID))
+    if err != nil {
+        return nil, err
+    }
+    defer response.Body.Close()
+
+    var locationData struct {
+        Locations []string `json:"locations"`
+    }
+    err = json.NewDecoder(response.Body).Decode(&locationData)
+    if err != nil {
+        return nil, err
+    }
+
+    return locationData.Locations, nil
 }
 
 func FetchArtistDates() (map[int][]string, error) {

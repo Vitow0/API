@@ -1,4 +1,4 @@
-body {
+body{
     font-family: Arial, sans-serif;
     text-align: center;
     margin-top: 50px;
@@ -6,20 +6,32 @@ body {
     background-repeat: no-repeat; 
     background-position: center; 
     background-attachment: fixed;
-}.search{
+    background-color: #f0f0f0;
+}h1{
+    color: #333;
+    margin-bottom: 20px;
+}h2{
+    color: #555; 
+    margin: 15px 0;
+}ul{
+    list-style-type: none; 
+    padding: 0;
+}li{
+    margin: 20px 0; 
+    padding: 10px;
+    border: 1px solid #ddd; 
+    border-radius: 5px; 
+    background-color: #fff; 
+    transition: box-shadow 0.3s; 
+}.search, .filters{
     text-decoration: none;
     color: white;
-    background-color: #138613;
+    background-color: #138613; 
     padding: 10px 20px;
     border-radius: 5px;
     margin: 5px;
     display: inline-block;
-}.filters {
- text-decoration: none;
-    color: white;
-    background-color: #28a745;
-    padding: 10px 20px;
-    border-radius: 5px;
-    margin: 5px;
-    display: inline-block;
+    transition: background-color 0.3s; 
+}.search:hover, .filters:hover{
+    background-color: #0a580a; 
 }
