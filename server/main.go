@@ -19,9 +19,9 @@ func main() {
 	http.HandleFunc("/relations", handlers.RelationsHandler) // go to relations handlers (http://localhost:8080/relations)
 	http.HandleFunc("/dates", handlers.DatesHandler) // go to dates handlers (http://localhost:8080/dates)
 	http.HandleFunc("/filters", handlers.FiltersHandler) // go to filters (http://localhost:8080/filters)
+	http.HandleFunc("/artists/", handlers.ArtistDetailsHandler) // pour afficher les détails de l'artiste
 	http.Handle("/web/", http.StripPrefix("/web/", http.FileServer(http.Dir("web")))) // take the file css to relie for the templates html
 	http.HandleFunc("/search", handlers.SearchHandler) // go to search (http://localhost:8080/search)
-
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		panic(err)

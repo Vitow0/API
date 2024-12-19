@@ -15,21 +15,24 @@ type Location struct {
     Lat  float64 `json:"lat"`
     Lng  float64 `json:"lng"`
 }
+type LocationResponse struct {
+    Locations []Location `json:"locations"`
+}
 
 // function to get the data location from API
 func FetchLocations() ([]Location, error) {
-	response, err := http.Get("https://groupietrackers.herokuapp.com/api/locations")
-	if err != nil {
-		return nil, err
-	}
-	defer response.Body.Close()
+    response, err := http.Get("https://groupietrackers.herokuapp.com/api/locations")
+    if err != nil {
+        return nil, err
+    }
+    defer response.Body.Close()
 
-	var locations []Location
-	err = json.NewDecoder(response.Body).Decode(&locations)
-	if err != nil {
-		return nil, err
-	}
-	return locations, nil
+    var locationResponse LocationResponse
+    err = json.NewDecoder(response.Body).Decode(&locationResponse)
+    if err != nil {
+        return nil, err
+    }
+    return locationResponse.Locations, nil
 }
 
 // Function to display the location

@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dates</title>
-    <link rel="stylesheet" href="/web/css/artists.css">
+    <link rel="stylesheet" href="/web/css/dates.css">
 </head>
 <body>
     <h1>Dates des Artistes</h1>
     <ul>
         {{ range .Dates }}
-        <li>
+        <ol>
             <h2>Artiste ID: {{ .ID }}</h2>
             <h3>Artiste Name: {{ .Name }}</h3>
             <p>Dates:</p>
@@ -19,7 +19,7 @@
                 <li>{{ . }}</li>
                 {{ end }}
             </ul>
-        </li>
+        </ol>
         {{ else }}
         <p>Aucune date trouvée.</p>
         {{ end }}

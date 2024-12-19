@@ -1,9 +1,20 @@
 body{
     font-family: Arial, sans-serif;
-    text-align: center;
+    text-align: left;
     margin-top: 50px;
     background-size: cover; 
     background-repeat: no-repeat; 
     background-position: center; 
     background-attachment: fixed;
+}.back{
+    text-decoration: none;
+    color: white;
+    background-color: #861313; 
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin: 5px;
+    display: inline-block;
+    transition: background-color 0.3s;
+}.back:hover{
+    background-color: #580a0a; 
 }

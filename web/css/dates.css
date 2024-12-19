@@ -13,6 +13,9 @@ body{
 }h2{
     color: #555; 
     margin: 15px 0;
+}h3{
+    color: #555; 
+    margin: 15px 0;
 }ul{
     list-style-type: none; 
     padding: 0;
@@ -31,26 +34,4 @@ body{
     transition: box-shadow 0.3s; 
 }li:hover{
     box-shadow: 0 0 20px 0px rgba(0,0,0,2);
-}.search, .filters{
-    text-decoration: none;
-    color: white;
-    background-color: #138613; 
-    padding: 10px 20px;
-    border-radius: 5px;
-    margin: 5px;
-    display: inline-block;
-    transition: background-color 0.3s; 
-}.search:hover, .filters:hover{
-    background-color: #0a580a; 
-}.details_button {
-    text-decoration: none;
-    color: white;
-    background-color: #135c86; 
-    padding: 10px 20px;
-    border-radius: 5px;
-    margin: 5px;
-    display: inline-block;
-    transition: background-color 0.3s; 
-}.details_button:hover {
-    background-color: #0a3558;
 }

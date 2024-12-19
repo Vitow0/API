@@ -216,3 +216,30 @@ func SearchHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Set("Content-Type", "application/json")
     json.NewEncoder(w).Encode(results)
 }
+func ArtistDetailsHandler(w http.ResponseWriter, r *http.Request) {
+    // Récupérer l'ID de l'artiste à partir de l'URL
+    idStr := strings.TrimPrefix(r.URL.Path, "/artists/")
+    id, err := strconv.Atoi(idStr)
+    if err != nil {
+        http.Error(w, "Invalid artist ID", http.StatusBadRequest)
+        return
+    }
+
+    // Récupérer les détails de l'artiste
+    artists, err := FetchArtists()
+    if err != nil {
+        http.Error(w, "Unable to fetch artists", http.StatusInternalServerError)
+        return
+    }
+
+    // Chercher l'artiste correspondant à l'ID
+    for _, artist := range artists {
+        if artist.ID == id {
+            w.Header().Set("Content-Type", "application/json")
+            json.NewEncoder(w).Encode(artist)
+            return
+        }
+    }
+
+    http.Error(w, "Artist not found", http.StatusNotFound)
+}

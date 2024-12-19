@@ -13,18 +13,20 @@
     <h1>Artists</h1>
     <ul>
         {{ range .Artists }}
-        <li>
+        <ol>
             <h2>{{ .Name }}</h2>
             <img src="{{ .Image }}" alt="Image of {{ .Name }}" width="150">
-            <p>Members:</p>
+            <p><strong>Members:</strong></p>
             <ul>
                 {{ range .Members }}
                 <li>{{ . }}</li>
                 {{ end }}
             </ul>
-            <p>Location: {{ .Locations }}</p>
-            <p>Dates: {{ range .Dates }} {{ . }}, {{ end }}</p>
-        </li>
+            <p><strong>Locations:</strong> {{ .Locations }}</p>
+            <p><strong>Dates:</strong> {{ range .Dates }}{{ . }}, {{ end }}</p>
+            <a href="/artists/{{ .ID }}" 
+            class="details_button">Plus de détails</a>
+        </ol>
         {{ else }}
         <p>No artists found.</p>
         {{ end }}
