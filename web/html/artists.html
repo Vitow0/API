@@ -1,35 +1,77 @@
-<!DOCTYPE html>
+<body>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artists</title>
     <link rel="stylesheet" href="/web/css/artists.css">
+    <script src="/web/js/go_up.js" defer></script> 
 </head>
-<body>
-    
-    <p><a class="search" href="/search">Search</a></p>
-    <p><a class="filters" href="/filters">Filters</a></p>
+ <header>
     <h1>Artists</h1>
-    <ul>
-        {{ range .Artists }}
-        <ol>
-            <h2>{{ .Name }}</h2>
-            <img src="{{ .Image }}" alt="Image of {{ .Name }}" width="150">
-            <p><strong>Members:</strong></p>
-            <ul>
-                {{ range .Members }}
-                <li>{{ . }}</li>
-                {{ end }}
-            </ul>
-            <p><strong>Locations:</strong> {{ .Locations }}</p>
-            <p><strong>Dates:</strong> {{ range .Dates }}{{ . }}, {{ end }}</p>
-            <a href="/artists/{{ .ID }}" 
-            class="details_button">Plus de détails</a>
-        </ol>
-        {{ else }}
-        <p>No artists found.</p>
-        {{ end }}
-    </ul>
+    <div id="search-filters">
+        <form id="search-form" method="GET" action="/artists">
+            <input 
+                type="text" 
+                name="q" 
+                id="search-query" 
+                placeholder="Search for an artist or member..." 
+                required
+            >
+            <button type="submit">Search</button>
+        </form>
+        <form id="filter-form" method="GET" action="/artists">
+            <label for="dates">Dates:</label>
+            <input type="text" id="dates" name="dates" placeholder="DD-MM-YYYY">
+
+            <label for="memberCount">Number of Members:</label>
+            <input type="number" id="memberCount" name="memberCount" min="1">
+
+            <button type="submit">Apply Filters</button>
+        </form>
+    </div>
+</header>
+<div id="map" style="height: 500px; width: 100%;"></div>
+<script src="https://maps.googleapis.com/maps/api/js?key=VOTRE_CLE_API"></script>
+<script>
+    function initMap() {
+        const map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 5,
+            center: { lat: 0, lng: 0 }, // Centrer sur une coordonnée par défaut
+        });
+
+        fetch('/api/artist_locations?id=ARTIST_ID') // Endpoint pour récupérer les données
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(location => {
+                    new google.maps.Marker({
+                        position: { lat: location.lat, lng: location.lng },
+                        map: map,
+                        title: location.address,
+                    });
+                });
+            });
+    }
+</script>
+  <ul>
+      {{ range .Artists }}
+      <ol>
+          <h2>{{ .Name }}</h2>
+          <img src="{{ .Image }}" alt="Image of {{ .Name }}" width="150">
+          <p><strong>Members:</strong></p>
+          <ul>
+              {{ range .Members }}
+              <li>{{ . }}</li>
+              {{ end }}
+          </ul>
+          <p><strong>Locations:</strong> {{ .Locations }}</p>
+          <p><strong>Dates:</strong> {{ range .Dates }}{{ . }}, {{ end }}</p>
+          <a href="/artists?id={{ .ID }}" class="details_button">Plus de détails</a>
+      </ol>
+      {{ else }}
+      <p>No artists found.</p>
+      {{ end }}
+  </ul>
+  <button onclick="topFunction()" id="myBtn">Go Up</button>
 </body>
-</html>
