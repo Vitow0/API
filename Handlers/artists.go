@@ -323,7 +323,7 @@ type GeocodingResponse struct {
 }
 
 func GetCoordinates(address string) (float64, float64, error) {
-    apiKey := "VOTRE_CLE_API_GOOGLE_MAPS"
+    apiKey := "CLE_API"
     url := fmt.Sprintf("https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=%s", address, apiKey)
 
     resp, err := http.Get(url)
