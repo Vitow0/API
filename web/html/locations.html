@@ -9,10 +9,10 @@
 </head>
 <body>
     <h1>Location: {{ .Place }}</h1>
-    <div id="map" style="height: 500px; width: 100%;"></div>
+    <div id="map" style="height: 860px; width: 100%;"></div>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Encadrez les valeurs Go avec des guillemets pour un rendu JavaScript valide
+            
             const lat = parseFloat("{{ .Lat }}");
             const lng = parseFloat("{{ .Lng }}");
 
