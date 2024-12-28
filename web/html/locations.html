@@ -3,40 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Artists Locations</title>
-    <link rel="stylesheet" href="/web/css/test.css">
-    <script src="https://maps.googleapis.com/maps/api/js?key=https://groupietrackers.herokuapp.com/api/locations" async defer></script>
-    <script>
-        function initMap() {
-            var locations = JSON.parse('{{ .LocationsJSON }}'); 
-            var map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 4,
-                center: { lat: 20, lng: 0 } 
-            });
-
-            locations.forEach(function(location) {
-                var marker = new google.maps.Marker({
-                    position: { lat: location.lat, lng: location.lng },
-                    map: map,
-                    title: location.name
-                });
-            });
-        }
-    </script>
+    <title>Location: {{ .Place }}</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
 </head>
-<body onload="initMap()">
-    <h1>Artists Locations</h1>
-    <div id="map" style="width: 100%; height: 500px;"></div>
+<body>
+    <h1>Location: {{ .Place }}</h1>
+    <div id="map" style="height: 500px; width: 100%;"></div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Encadrez les valeurs Go avec des guillemets pour un rendu JavaScript valide
+            const lat = parseFloat("{{ .Lat }}");
+            const lng = parseFloat("{{ .Lng }}");
 
-    <h2>Locations List</h2>
-    <ul>
-        {{ range .Locations }}
-        <li>{{ .Name }} ({{ .Lat }}, {{ .Lng }})</li>
-        {{ else }}
-        <p>No locations available.</p>
-        {{ end }}
-    </ul>
 
-    <a href="/artists">Back to Home</a>
+            const map = L.map('map').setView([lat, lng], 12);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            const marker = L.marker([lat, lng]).addTo(map);
+            marker.bindPopup("{{ .Place }}").openPopup();
+        });
+    </script>
 </body>
 </html>

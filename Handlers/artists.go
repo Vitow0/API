@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 	"text/template"
@@ -48,35 +49,6 @@ func FetchArtists() ([]Artist, error) {
 	}
 	return artists, nil
 }
-func FetchLocationsForArtist(artistID int) ([]string, error) {
-    response, err := http.Get(fmt.Sprintf("https://groupietrackers.herokuapp.com/api/locations/%d", artistID))
-    if err != nil {
-        return nil, err
-    }
-    defer response.Body.Close()
-
-    var locationData struct {
-        Locations []string `json:"locations"`
-    }
-    err = json.NewDecoder(response.Body).Decode(&locationData)
-    if err != nil {
-        return nil, err
-    }
-
-    var locationsWithCoords []string
-    for _, location := range locationData.Locations {
-        lat, lng, err := GetCoordinates(location)
-        if err == nil {
-            // Ajoutez l'adresse formatée avec ses coordonnées
-            locationsWithCoords = append(locationsWithCoords, fmt.Sprintf("%s (%.5f, %.5f)", location, lat, lng))
-        } else {
-            // Ajoutez uniquement l'adresse si les coordonnées ne peuvent pas être récupérées
-            locationsWithCoords = append(locationsWithCoords, location)
-        }
-    }
-    return locationsWithCoords, nil
-}
-
 
 func FetchArtistDates() (map[int][]string, error) {
 	response, err := http.Get("https://groupietrackers.herokuapp.com/api/dates")
@@ -101,7 +73,7 @@ func FetchArtistDates() (map[int][]string, error) {
 	return artistDates, nil
 }
 
-func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
+/*func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 	// Vérifier si un ID d'artiste est spécifié dans les paramètres de la requête
 	idParam := r.URL.Query().Get("id") // Paramètre "id"
 
@@ -177,9 +149,9 @@ func displayArtistsList(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Error rendering template: %v", err)
 		http.Error(w, "Unable to render template", http.StatusInternalServerError)
 	}
-}
+}*/
 
-// Affiche les détails d'un artiste spécifique
+
 func displayArtistDetails(w http.ResponseWriter, idStr string) {
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
@@ -295,7 +267,49 @@ func ArtistDetailsHandler(w http.ResponseWriter, r *http.Request) {
 
     http.Error(w, "Artist not found", http.StatusNotFound)
 }*/
-/*func FetchLocationsForArtist(artistID int) ([]string, error) {
+
+func GetCoordinates(address string) (float64, float64, error) {
+	apiKey := "34a441c385754c569b0b89e63fc51b85" 
+	baseURL := "https://api.opencagedata.com/geocode/v1/json"
+
+	query := url.Values{}
+	query.Set("q", address)
+	query.Set("key", apiKey)
+	query.Set("limit", "1")
+
+	requestURL := fmt.Sprintf("%s?%s", baseURL, query.Encode())
+
+	resp, err := http.Get(requestURL)
+	if err != nil {
+		return 0, 0, err
+	}
+	defer resp.Body.Close()
+
+	var geoResponse struct {
+		Results []struct {
+			Geometry struct {
+				Lat float64 `json:"lat"`
+				Lng float64 `json:"lng"`
+			} `json:"geometry"`
+		} `json:"results"`
+	}
+
+	err = json.NewDecoder(resp.Body).Decode(&geoResponse)
+	if err != nil {
+		return 0, 0, err
+	}
+
+	if len(geoResponse.Results) == 0 {
+		return 0, 0, fmt.Errorf("no results found for address: %s", address)
+	}
+
+	lat := geoResponse.Results[0].Geometry.Lat
+	lng := geoResponse.Results[0].Geometry.Lng
+	return lat, lng, nil
+}
+
+
+func FetchLocationsForArtist(artistID int) ([]string, error) {
 	response, err := http.Get(fmt.Sprintf("https://groupietrackers.herokuapp.com/api/locations/%d", artistID))
 	if err != nil {
 		return nil, err
@@ -309,37 +323,71 @@ func ArtistDetailsHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		return nil, err
 	}
+
 	return locationData.Locations, nil
-}*/
-type GeocodingResponse struct {
-    Results []struct {
-        Geometry struct {
-            Location struct {
-                Lat float64 `json:"lat"`
-                Lng float64 `json:"lng"`
-            } `json:"location"`
-        } `json:"geometry"`
-    } `json:"results"`
 }
 
-func GetCoordinates(address string) (float64, float64, error) {
-    apiKey := "CLE_API"
-    url := fmt.Sprintf("https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=%s", address, apiKey)
 
-    resp, err := http.Get(url)
-    if err != nil {
-        return 0, 0, err
-    }
-    defer resp.Body.Close()
+func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
+	artists, err := FetchArtists()
+	if err != nil {
+		log.Printf("Error fetching artists: %v", err)
+		http.Error(w, "Unable to fetch artists", http.StatusInternalServerError)
+		return
+	}
 
-    var geoResponse GeocodingResponse
-    if err := json.NewDecoder(resp.Body).Decode(&geoResponse); err != nil {
-        return 0, 0, err
-    }
+	tmpl, err := template.New("artists.html").Funcs(template.FuncMap{
+		"split": strings.Split,
+	}).ParseFiles("web/html/artists.html")
+	if err != nil {
+		log.Printf("Error loading template: %v", err)
+		http.Error(w, "Unable to load template", http.StatusInternalServerError)
+		return
+	}
 
-    if len(geoResponse.Results) == 0 {
-        return 0, 0, fmt.Errorf("no results found for address: %s", address)
-    }
+	data := struct {
+		Artists []Artist
+	}{
+		Artists: artists,
+	}
 
-    return geoResponse.Results[0].Geometry.Location.Lat, geoResponse.Results[0].Geometry.Location.Lng, nil
+	if err := tmpl.Execute(w, data); err != nil {
+		log.Printf("Error rendering template: %v", err)
+		http.Error(w, "Unable to render template", http.StatusInternalServerError)
+	}
+}
+
+
+func LocationHandler(w http.ResponseWriter, r *http.Request) {
+	place := r.URL.Query().Get("place")
+	if place == "" {
+		http.Error(w, "Location not specified", http.StatusBadRequest)
+		return
+	}
+
+	lat, lng, err := GetCoordinates(place)
+	if err != nil {
+		http.Error(w, "Unable to geocode location", http.StatusInternalServerError)
+		return
+	}
+
+	tmpl, err := template.ParseFiles("web/html/locations.html")
+	if err != nil {
+		http.Error(w, "Unable to load template", http.StatusInternalServerError)
+		return
+	}
+
+	data := struct {
+		Place string
+		Lat   float64
+		Lng   float64
+	}{
+		Place: place,
+		Lat:   lat,
+		Lng:   lng,
+	}
+
+	if err := tmpl.Execute(w, data); err != nil {
+		http.Error(w, "Unable to render template", http.StatusInternalServerError)
+	}
 }
