@@ -86,7 +86,7 @@ li:hover {
 
 #myBtn:hover {
     background-color: #cc0000; 
-} /* Styles pour le système de recherche et de filtres */
+} 
 #search-filters {
     margin: 20px 0;
     display: flex;
@@ -101,21 +101,28 @@ li:hover {
 input[type="text"], input[type="number"] {
     padding: 10px;
     margin: 5px;
-    border: 1px solid #ffcc00; /* Bordure dorée */
+    border: 1px solid #ffcc00; 
     border-radius: 5px;
-    width: 200px; /* Largeur fixe pour les champs de saisie */
+    width: 200px; 
 }
 
 button {
     padding: 10px 15px;
-    background-color: #ff6600; /* Couleur orange vif */
+    background-color: #ff6600; 
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s; /* Animation de couleur */
+    transition: background-color 0.3s; 
 }
 
 button:hover {
-    background-color: #cc5200; /* Couleur orange plus foncée au survol */
+    background-color: #cc5200; 
+}.locations a {
+    color: white; 
+    transition: color 0.3s; 
+}
+
+.locations a:hover {
+    color: black; 
 }

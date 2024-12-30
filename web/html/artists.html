@@ -44,7 +44,7 @@
                 {{ end }}
             </ul>
             <p><strong>Locations:</strong></p>
-            <ul>
+                <ul class="locations"> 
                 {{ range (split .Locations ", ") }}
                 <li><a href="/location?place={{ . | urlquery }}">{{ . }}</a></li>
                 {{ end }}

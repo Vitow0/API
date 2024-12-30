@@ -27,6 +27,5 @@ const fetchGeocode = async (address) => {
     }
   };
   
-  // Exemple d'appel
   fetchGeocode('1600 Amphitheatre Parkway, Mountain View, CA');
   
