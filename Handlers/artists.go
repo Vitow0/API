@@ -240,7 +240,7 @@ func containsDate(dates []string, targetDate string) bool {
     target, err := time.Parse(layout, targetDate)
 
     if err != nil {
-        return false // Return false if incorrect target
+        return false // Return false if incorrect target dates
     }
 
     // Check every date in the list
