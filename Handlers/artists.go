@@ -9,6 +9,7 @@ import (
 	"strconv"
 	"strings"
 	"text/template"
+	"time"
 )
 
 // Struct Artist
@@ -229,12 +230,29 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 
 // function to range dates artists
 func containsDate(dates []string, targetDate string) bool {
+    // Define Date
+    layout := "02-01-2006" // Render DD-MM-YYYY
+
+    // remove this caractere * if found out
+    targetDate = strings.TrimPrefix(targetDate, "*")
+
+    // Analyse thetarget Date
+    target, err := time.Parse(layout, targetDate)
+
+    if err != nil {
+        return false // Return false if incorrect target
+    }
+
+    // Check every date in the list
     for _, date := range dates {
-        if date >= targetDate {
-            return true
+        // remove * if found out
+        cleanDate := strings.TrimPrefix(date, "*")
+        parsedDate, err := time.Parse(layout, cleanDate)
+        if err == nil && parsedDate.Equal(target) {
+            return true // return true if a date is found
         }
     }
-    return false
+    return false // return false if there is no date
 }
 
 // function to get the templates for the geolocalization
