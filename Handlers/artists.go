@@ -98,6 +98,7 @@ func displayArtistDetails(w http.ResponseWriter, idStr string) {
 	http.Error(w, "Artist not found", http.StatusNotFound)
 }
 
+// function to geocoding the location from the map API
 func GetCoordinates(address string) (float64, float64, error) {
 	apiKey := "34a441c385754c569b0b89e63fc51b85" 
 	baseURL := "https://api.opencagedata.com/geocode/v1/json"
@@ -138,7 +139,7 @@ func GetCoordinates(address string) (float64, float64, error) {
 	return lat, lng, nil
 }
 
-
+// function forthe templates locations
 func FetchLocationsForArtist(artistID int) ([]string, error) {
 	// get the API locations
 	response, err := http.Get(fmt.Sprintf("https://groupietrackers.herokuapp.com/api/locations/%d", artistID))
@@ -277,5 +278,4 @@ func containsDate(dates []string, targetDate string) bool {
         }
     }
     return false // return false if there is no date
-	
 }
