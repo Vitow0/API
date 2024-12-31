@@ -24,23 +24,27 @@ type Artist struct {
 
 // Function to get the data from the API
 func FetchArtists() ([]Artist, error) {
-	response, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
+
+	//get the API artists
+	response, err := http.Get("https://groupietrackers.herokuapp.com/api/artists") 
 	if err != nil {
 		return nil, err
 	}
 	defer response.Body.Close()
-
+	// return error if there is an error for decoding the artists
 	var artists []Artist
 	err = json.NewDecoder(response.Body).Decode(&artists)
 	if err != nil {
 		return nil, err
 	}
 
-	artistDates, err := FetchArtistDates()
+	// call the function dates artists
+	artistDates, err := FetchArtistDates() 
 	if err != nil {
 		return nil, err
 	}
 
+	// set the loations concert from artists
 	for i := range artists {
 		locations, err := FetchLocationsForArtist(artists[i].ID)
 		if err == nil {
@@ -51,12 +55,16 @@ func FetchArtists() ([]Artist, error) {
 	return artists, nil
 }
 
+// function to display the dates from artists
 func FetchArtistDates() (map[int][]string, error) {
+	// get the API dates for artists
 	response, err := http.Get("https://groupietrackers.herokuapp.com/api/dates")
 	if err != nil {
 		return nil, err
 	}
 	defer response.Body.Close()
+
+	// get the struct Dates
 	var dateResponse struct {
 		Index []struct {
 			ID    int      `json:"id"`
@@ -67,6 +75,7 @@ func FetchArtistDates() (map[int][]string, error) {
 	if err != nil {
 		return nil, err
 	}
+	// save the dates for the filter
 	artistDates := make(map[int][]string)
 	for _, entry := range dateResponse.Index {
 		artistDates[entry.ID] = entry.Dates
@@ -74,19 +83,22 @@ func FetchArtistDates() (map[int][]string, error) {
 	return artistDates, nil
 }
 
+//function to display the details for artists
 func displayArtistDetails(w http.ResponseWriter, idStr string) {
+
+	// display if the artists ID is invalide or display the details if correct
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
 		http.Error(w, "Invalid artist ID", http.StatusBadRequest)
 		return
 	}
-
+	// call the function to fetch artists or display this message if there is an error
 	artists, err := FetchArtists()
 	if err != nil {
 		http.Error(w, "Unable to fetch artists", http.StatusInternalServerError)
 		return
 	}
-
+	// decode the files .json and display it in the templates
 	for _, artist := range artists {
 		if artist.ID == id {
 			w.Header().Set("Content-Type", "application/json")
@@ -94,28 +106,30 @@ func displayArtistDetails(w http.ResponseWriter, idStr string) {
 			return
 		}
 	}
-
+	// if there is an error then display this message
 	http.Error(w, "Artist not found", http.StatusNotFound)
 }
 
 // function to geocoding the location from the map API
 func GetCoordinates(address string) (float64, float64, error) {
+	// get the API key
 	apiKey := "34a441c385754c569b0b89e63fc51b85" 
+	// get the URL from the origin of the API (OpenCage)
 	baseURL := "https://api.opencagedata.com/geocode/v1/json"
-
+	// set the parmaeters of the API like the adresse location, and the limit of use of API
 	query := url.Values{}
 	query.Set("q", address)
 	query.Set("key", apiKey)
 	query.Set("limit", "1")
-
+	// create the URL, from the MAP API it should be like this : baseURL=apiKey (query)
 	requestURL := fmt.Sprintf("%s?%s", baseURL, query.Encode())
-
+	// if the URL isn't working, then it return an error
 	resp, err := http.Get(requestURL)
 	if err != nil {
 		return 0, 0, err
 	}
 	defer resp.Body.Close()
-
+	// get the geoResponse structs
 	var geoResponse struct {
 		Results []struct {
 			Geometry struct {
@@ -129,11 +143,11 @@ func GetCoordinates(address string) (float64, float64, error) {
 	if err != nil {
 		return 0, 0, err
 	}
-
+	// if there is no results, then display this message
 	if len(geoResponse.Results) == 0 {
 		return 0, 0, fmt.Errorf("no results found for address: %s", address)
 	}
-
+	// we define the lattitude and longitude to geocode the locations
 	lat := geoResponse.Results[0].Geometry.Lat
 	lng := geoResponse.Results[0].Geometry.Lng
 	return lat, lng, nil
@@ -147,7 +161,7 @@ func FetchLocationsForArtist(artistID int) ([]string, error) {
 		return nil, err
 	}
 	defer response.Body.Close()
-
+	// get the location data structs
 	var locationData struct {
 		Locations []string `json:"locations"`
 	}
@@ -171,7 +185,7 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
             http.Error(w, "Unable to geocode location", http.StatusInternalServerError)
             return
         }
-
+		// get the templates html, if there is no templates, then it diplay this message as an error
         tmpl, err := template.ParseFiles("web/html/locations.html")
         if err != nil {
             http.Error(w, "Unable to load template", http.StatusInternalServerError)
@@ -188,7 +202,7 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
             Lat:   lat,
             Lng:   lng,
         }
-
+		// if the structs is not working, then it also display this message
         if err := tmpl.Execute(w, data); err != nil {
             http.Error(w, "Unable to render template", http.StatusInternalServerError)
         }
@@ -215,17 +229,17 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
         return
     }
 
-    // Filtre the artists
+    // Filtered the artists
     var filtered []Artist
     for _, artist := range artists {
         if query != "" && !strings.Contains(strings.ToLower(artist.Name), query) &&
             !strings.Contains(strings.ToLower(strings.Join(artist.Members, " ")), query) {
             continue
         }
-
+		// defined the variables to matche the dates and memebers
         matchesDate := dates == "" || containsDate(artist.Dates, dates)
         matchesMembers := memberCount == 0 || len(artist.Members) == memberCount
-
+		// check if both dates and memeber matches
         if matchesDate && matchesMembers {
             filtered = append(filtered, artist)
         }
@@ -246,7 +260,7 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
     }{
         Artists: filtered,
     }
-
+	// if the templates is not rendering then it display this message
     if err := tmpl.Execute(w, data); err != nil {
         log.Printf("Error rendering template: %v", err)
         http.Error(w, "Unable to render template", http.StatusInternalServerError)
