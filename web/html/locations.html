@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Location: {{ .Place }}</title>
+    <link rel="stylesheet" href="/web/css/locations.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
 </head>
 <body>
     <h1>Location: {{ .Place }}</h1>
+    <button id="goBackButton" onclick="window.location.href='/artists'">Go Back</button>
     <div id="map" style="height: 860px; width: 100%;"></div>
     <script>
         document.addEventListener("DOMContentLoaded", function () {

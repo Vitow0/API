@@ -9,7 +9,7 @@
 </head>
 <body>
     <header>
-        <h1>Artists</h1>
+        <h1>Artists</h1>       
         <div id="search-filters">
             <form id="search-form" method="GET" action="/artists">
                 <input 
@@ -30,6 +30,9 @@
 
                 <button type="submit">Apply Filters</button>
             </form>
+            <form id="reset-form" method="GET" action="/artists">
+            <button type="submit" class="reset_button">Réinitialiser les filtres et la recherche d'artists</button>
+        </form> 
         </div>
     </header>
     <ul>
@@ -56,6 +59,7 @@
                 {{ end }}
             </ul>
             <a href="/artists?id={{ .ID }}" class="details_button">Plus de détails</a>
+            <a href="/artists" class="back_button">Revenir à la liste des artistes</a>
         </li>
         {{ else }}
         <p>No artists found.</p>

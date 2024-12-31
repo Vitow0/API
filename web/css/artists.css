@@ -1,4 +1,4 @@
-body {
+body{
     font-family: 'Arial', sans-serif;
     text-align: center;
     margin-top: 50px;
@@ -90,4 +90,16 @@ body {
     transition: color 0.3s; 
 }.locations a:hover{
     color: black; 
+}.reset_button{
+    padding: 10px 15px;
+    background-color: #ff6600;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s, transform 0.3s;
+}.reset_button:hover{
+    background-color: #cc5200; 
+    transform: scale(1.05);
 }

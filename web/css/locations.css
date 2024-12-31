@@ -1,0 +1,39 @@
+body{
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #2e2e2e, #4a4a4a); 
+    color: #f0f0f0; 
+    text-align: center;
+}h1{
+    color: #ffa500; 
+    margin: 20px 0;
+    font-size: 2.5em; 
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8); 
+    letter-spacing: 1px;
+}#map{
+    border: 3px solid #ffa500; 
+    border-radius: 15px;
+    margin: 30px auto;
+    max-width: 1500px;
+    height: 860px;
+    transition: transform 0.4s, box-shadow 0.4s; 
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.6); 
+}#goBackButton{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 10px 15px;
+    font-size: 14px;
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
+}#goBackButton:hover{
+    background-color: #690404;
+}
+
+
