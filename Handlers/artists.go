@@ -17,6 +17,8 @@ type Artist struct {
 	ID        int      `json:"id"`
 	Name      string   `json:"name"`
 	Image     string   `json:"image"`
+	CreationDate int      `json:"creationDate"` 
+    FirstAlbum   string   `json:"firstAlbum"`
 	Dates     []string `json:"dates"`
 	Locations string   `json:"locations"`
 	Members   []string `json:"members"`
@@ -85,29 +87,51 @@ func FetchArtistDates() (map[int][]string, error) {
 
 //function to display the details for artists
 func displayArtistDetails(w http.ResponseWriter, idStr string) {
+    id, err := strconv.Atoi(idStr)
+    if err != nil {
+        http.Error(w, "Invalid artist ID", http.StatusBadRequest)
+        return
+    }
 
-	// display if the artists ID is invalide or display the details if correct
-	id, err := strconv.Atoi(idStr)
-	if err != nil {
-		http.Error(w, "Invalid artist ID", http.StatusBadRequest)
-		return
-	}
-	// call the function to fetch artists or display this message if there is an error
-	artists, err := FetchArtists()
-	if err != nil {
-		http.Error(w, "Unable to fetch artists", http.StatusInternalServerError)
-		return
-	}
-	// decode the files .json and display it in the templates
-	for _, artist := range artists {
-		if artist.ID == id {
-			w.Header().Set("Content-Type", "application/json")
-			json.NewEncoder(w).Encode(artist)
-			return
-		}
-	}
-	// if there is an error then display this message
-	http.Error(w, "Artist not found", http.StatusNotFound)
+    artists, err := FetchArtists()
+    if err != nil {
+        http.Error(w, "Unable to fetch artists", http.StatusInternalServerError)
+        return
+    }
+	// search for all artists
+    for _, artist := range artists {
+		// if he found the same ID as the artists
+        if artist.ID == id {
+			// Then he show all the information from the file .json defined
+            w.Header().Set("Content-Type", "application/json")
+            json.NewEncoder(w).Encode(
+				// defined the struct for the artists_details
+				struct {
+                ID           int      `json:"id"`
+                Name         string   `json:"name"`
+                Image        string   `json:"image"`
+				CreationDate int      `json:"creationDate"`
+                FirstAlbum   string   `json:"firstAlbum"`
+                Dates        []string `json:"dates"`
+                Locations    string   `json:"locations"`
+                Members      []string `json:"members"`
+				BackURL      string   `json:"back_url"` // defined the URL to go back
+            }{
+                ID:           artist.ID,
+                Name:         artist.Name,
+                Image:        artist.Image,
+				CreationDate: artist.CreationDate,
+                FirstAlbum:   artist.FirstAlbum,
+                Dates:        artist.Dates,
+                Locations:    artist.Locations,
+                Members:      artist.Members,
+				BackURL:      "http://localhost:8080/artists", // to go back to the website from artists_details
+            })
+            return
+        }
+    }
+
+    http.Error(w, "Artist not found", http.StatusNotFound)
 }
 
 // function to geocoding the location from the map API
@@ -254,12 +278,34 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
         http.Error(w, "Unable to load template", http.StatusInternalServerError)
         return
     }
-	// get the data artists filtered
-    data := struct {
-        Artists []Artist
-    }{
-        Artists: filtered,
-    }
+	// create the structs for artists summary details
+    type ArtistSummary struct {
+		ID        int      `json:"id"`
+		Name      string   `json:"name"`
+		Image     string   `json:"image"`
+		Dates     []string `json:"dates"`
+		Locations string   `json:"locations"`
+		Members   []string `json:"members"`
+	}
+	// defined the details artists
+	var artistSummaries []ArtistSummary
+	// filtered only these parameters from artists
+	for _, artist := range filtered {
+		artistSummaries = append(artistSummaries, ArtistSummary{
+			ID:        artist.ID,
+			Name:      artist.Name,
+			Image:     artist.Image,
+			Dates:     artist.Dates,
+			Locations: artist.Locations,
+			Members:   artist.Members,
+		})
+	}
+	// get the data artists summary
+	data := struct {
+		Artists []ArtistSummary
+	}{
+		Artists: artistSummaries,
+	}
 	// if the templates is not rendering then it display this message
     if err := tmpl.Execute(w, data); err != nil {
         log.Printf("Error rendering template: %v", err)
