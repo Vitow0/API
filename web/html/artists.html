@@ -31,7 +31,7 @@
                 <button type="submit">Apply Filters</button>
             </form>
             <form id="reset-form" method="GET" action="/artists">
-            <button type="submit" class="reset_button">Réinitialiser les filtres et la recherche d'artists</button>
+            <button type="submit" class="reset_button">Reset filters and artist search</button>
         </form> 
         </div>
     </header>
@@ -58,7 +58,7 @@
                 <li>{{ . }}</li>
                 {{ end }}
             </ul>
-            <a href="/artists?id={{ .ID }}" class="details_button">Plus de détails</a>
+            <a href="/artists?id={{ .ID }}" class="details_button">More details</a>
         </li>
         {{ else }}
         <p>No artists found.</p>
