@@ -337,5 +337,5 @@ func containsDate(dates []string, targetDate string) bool {
             return true // return true if a date is found
         }
     }
-    return false // return false if there is no dates
+    return false // return false if there is no date
 }
