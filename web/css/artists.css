@@ -77,6 +77,7 @@ body{
 }button:hover{
     background-color: #cc5200; 
 }.locations a{
+    text-decoration: none;
     color: white; 
     transition: color 0.3s; 
 }.locations a:hover{
