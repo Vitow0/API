@@ -255,6 +255,7 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 
     // Filtered the artists
     var filtered []Artist
+	// search the artists
     for _, artist := range artists {
         if query != "" && !strings.Contains(strings.ToLower(artist.Name), query) &&
             !strings.Contains(strings.ToLower(strings.Join(artist.Members, " ")), query) {
