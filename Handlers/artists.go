@@ -122,7 +122,7 @@ func displayArtistDetails(w http.ResponseWriter, idStr string) {
                 Dates:        artist.Dates,
                 Locations:    artist.Locations,
                 Members:      artist.Members,
-				BackURL:      "http://localhost:8080/artists", // to go back to the website from artists_details
+				BackURL:      "http://localhost:8080/artists", 	// to go back to the website from artists_details
             })
             return
         }
