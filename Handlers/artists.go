@@ -26,7 +26,6 @@ type Artist struct {
 
 // Function to get the data from the API
 func FetchArtists() ([]Artist, error) {
-
 	//get the API artists
 	response, err := http.Get("https://groupietrackers.herokuapp.com/api/artists") 
 	if err != nil {
@@ -39,13 +38,11 @@ func FetchArtists() ([]Artist, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	// call the function dates artists
 	artistDates, err := FetchArtistDates() 
 	if err != nil {
 		return nil, err
 	}
-
 	// set the loations concert from artists
 	for i := range artists {
 		locations, err := FetchLocationsForArtist(artists[i].ID)
@@ -194,13 +191,11 @@ func FetchLocationsForArtist(artistID int) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-
 	return locationData.Locations, nil
 }
 
 // function for the API handlers templates
 func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
-
     // Get the artists ID location from URL
     place := r.URL.Query().Get("place")
     if place != "" {
@@ -232,7 +227,6 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
         }
         return
     }
-
     // Get the artists
     artists, err := FetchArtists()
     if err != nil {
@@ -240,19 +234,16 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
         http.Error(w, "Unable to fetch artists", http.StatusInternalServerError)
         return
     }
-
     // Get the filter and search URL
     query := strings.ToLower(r.URL.Query().Get("q"))
     dates := r.URL.Query().Get("dates")
     memberCount, _ := strconv.Atoi(r.URL.Query().Get("memberCount"))
     idParam := r.URL.Query().Get("id")
-
     // If there is an ID details, then call this function
     if idParam != "" {
         displayArtistDetails(w, idParam)
         return
     }
-
     // Filtered the artists
     var filtered []Artist
     for _, artist := range artists {
@@ -268,7 +259,6 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
             filtered = append(filtered, artist)
         }
     }
-
     // Render the artists in the filter
     tmpl, err := template.New("artists.html").Funcs(template.FuncMap{
         "split": strings.Split,
