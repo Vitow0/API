@@ -5,6 +5,7 @@ body{
     background: linear-gradient(to bottom, #2e2e2e, #4a4a4a); 
     color: #f0f0f0; 
     text-align: center;
+    overflow-y: hidden;
 }h1{
     color: #ffa500; 
     margin: 20px 0;

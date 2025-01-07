@@ -81,6 +81,7 @@ body{
     color: white; 
     transition: color 0.3s; 
 }.locations a:hover{
+    text-decoration: none;
     color: black; 
 }.reset_button{
     padding: 10px 15px;
