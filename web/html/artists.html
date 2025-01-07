@@ -49,7 +49,7 @@
             <p><strong>Locations:</strong></p>
             <ul class="locations"> 
                 {{ range (split .Locations ", ") }}
-                <li><a href="/artists?place={{ . | urlquery }}">{{ . }}</a></li>
+                <li><a href="/artists?place={{ . | urlquery }}" title="Learn more about the location">{{ . }}</a></li>
                 {{ end }}
             </ul>
             <p><strong>Dates:</strong></p>
