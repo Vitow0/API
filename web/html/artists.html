@@ -42,7 +42,7 @@
             <img src="{{ .Image }}" alt="Image of {{ .Name }}" width="150">
             <p><strong>Members:</strong></p>
             <ul>
-                {{ range .Members }}
+                {{ range .Relations }}
                 <li>{{ . }}</li>
                 {{ end }}
             </ul>
