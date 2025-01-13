@@ -59,7 +59,9 @@ func FetchArtistDates() (map[int][]string, error) {
 		return nil, err
 	}
 	defer response.Body.Close()
+	// get data response
 	var dateResponse struct {
+		// set Index struct for artists date
 		Index []struct {
 			ID    int      `json:"id"`
 			Dates []string `json:"dates"`
@@ -83,6 +85,7 @@ func FetchLocationsForArtist(artistID int) ([]string, error) {
 		return nil, err
 	}
 	defer response.Body.Close()
+	// get location data for the location of the artists
 	var locationData struct {
 		Locations []string `json:"locations"`
 	}
@@ -174,6 +177,7 @@ func displayArtistDetails(w http.ResponseWriter, idStr string) {
 
 // Function to handles artist-related requests
 func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
+	// Handler for the location of the artists
 	place := r.URL.Query().Get("place")
 	if place != "" {
 		lat, lng, err := GetCoordinates(place)
@@ -207,6 +211,7 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Unable to fetch artists", http.StatusInternalServerError)
 		return
 	}
+	// variable for filtered and search artists
 	query := strings.ToLower(r.URL.Query().Get("q"))
 	dates := r.URL.Query().Get("dates")
 	memberCount, _ := strconv.Atoi(r.URL.Query().Get("memberCount"))
@@ -216,12 +221,15 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 		displayArtistDetails(w, idParam)
 		return
 	}
+	// variable to filtered the artists
 	var filtered []Artist
 	for _, artist := range artists {
+		// search the artists
 		if query != "" && !strings.Contains(strings.ToLower(artist.Name), query) &&
 			!strings.Contains(strings.ToLower(strings.Join(artist.Relations, " ")), query) {
 			continue
 		}
+		// filtered the artists
 		matchesDate := dates == "" || containsDate(artist.Dates, dates)
 		matchesMembers := memberCount == 0 || len(artist.Relations) == memberCount
 
@@ -229,6 +237,7 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 			filtered = append(filtered, artist)
 		}
 	}
+	// Check if the templates is working
 	tmpl, err := template.New("artists.html").Funcs(template.FuncMap{
 		"split": strings.Split,
 	}).ParseFiles("web/html/artists.html")
@@ -246,6 +255,7 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 		Locations string   `json:"locations"`
 		Relations []string `json:"members"`
 	}
+	// check only these options for the filtered artists
 	var artistSummaries []ArtistSummary
 	for _, artist := range filtered {
 		artistSummaries = append(artistSummaries, ArtistSummary{
