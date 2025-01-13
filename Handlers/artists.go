@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-// Artist struct
+// get the artist struct
 type Artist struct {
 	ID           int      `json:"id"`
 	Name         string   `json:"name"`
@@ -186,7 +186,7 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Unable to load template", http.StatusInternalServerError)
 			return
 		}
-		// get the struct for the map
+		// get the data struct for the map
 		data := struct {
 			Place string
 			Lat   float64
@@ -237,7 +237,7 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Unable to load template", http.StatusInternalServerError)
 		return
 	}
-	// get the details structs
+	// get the details summary artist structs
 	type ArtistSummary struct {
 		ID        int      `json:"id"`
 		Name      string   `json:"name"`
@@ -257,7 +257,7 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 			Relations: artist.Relations,
 		})
 	}
-	// defined the structs for the details of the artists
+	// defined the structs for the details of the summary artists
 	data := struct {
 		Artists []ArtistSummary
 	}{
