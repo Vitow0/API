@@ -251,7 +251,7 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Unable to load template", http.StatusInternalServerError)
 		return
 	}
-	// Get the details summary artist structs
+	// Get the details summary artist struct
 	type ArtistSummary struct {
 		ID        int      `json:"id"`
 		Name      string   `json:"name"`
