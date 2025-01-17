@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('search-form').addEventListener('submit', function(event) {
-        event.preventDefault(); // Empêche la soumission du formulaire
-        filterArtists();
+        event.preventDefault(); 
     });
 
     function filterArtists() {
@@ -17,9 +16,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.text();
             })
             .then(text => {
-                console.log('Raw response:', text); // Log raw response for debugging
+                console.log('Raw response:', text); 
                 try {
-                    return JSON.parse(text); // Parse JSON manually
+                    return JSON.parse(text); 
                 } catch (e) {
                     throw new Error(`Invalid JSON: ${e.message}`);
                 }
