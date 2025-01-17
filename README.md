@@ -1,7 +1,10 @@
 # API
 Groopie tracker
+Par Vittorio Gandossi
+    Mathys Urban
+    Axel Macé
 Pour démarrer l'API, télécharger d'abord Ubuntu et VScode
-Une fois ces deux étapes réaliser, vous devez télécharger le dossier de l'API en faisant attention d'être sur la branche main, puis ouvrez ce dossier a partir de Vscode
+Une fois ces deux étapes réalisées, vous devez télécharger le dossier de l'API en faisant attention d'être sur la branche main, puis ouvrez ce dossier à partir de Vscode
 Une fois le dossier ouvert sur VScode, il faut :
 - ouvrez un terminal
 - taper la commande "go run sever/main.go", cela va allumer le serveur de l'API
