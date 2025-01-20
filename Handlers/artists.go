@@ -177,7 +177,7 @@ func displayArtistDetails(w http.ResponseWriter, idStr string) {
 	}
 	http.Error(w, "Artist not found", http.StatusNotFound)
 }
-
+// Function to handle the templates artists
 func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 	// Handler for the location of the artists
 	place := r.URL.Query().Get("place")
