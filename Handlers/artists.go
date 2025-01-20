@@ -179,6 +179,111 @@ func displayArtistDetails(w http.ResponseWriter, idStr string) {
 }
 
 // Function to handles artist-related requests
+/*func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
+	// Handler for the location of the artists
+	place := r.URL.Query().Get("place")
+	if place != "" {
+		lat, lng, err := GetCoordinates(place)
+		if err != nil {
+			http.Error(w, "Unable to geocode location", http.StatusInternalServerError)
+			return
+		}
+		tmpl, err := template.ParseFiles("web/html/locations.html")
+		if err != nil {
+			http.Error(w, "Unable to load template", http.StatusInternalServerError)
+			return
+		}
+		// Get the data struct for the map
+		data := struct {
+			Place string
+			Lat   float64
+			Lng   float64
+		}{
+			Place: place,
+			Lat:   lat,
+			Lng:   lng,
+		}
+		if err := tmpl.Execute(w, data); err != nil {
+			http.Error(w, "Unable to render template", http.StatusInternalServerError)
+		}
+		return
+	}
+	// Display the summary details of the function FetchArtists
+	artists, err := FetchArtists()
+	if err != nil {
+		log.Printf("Error fetching artists: %v", err)
+		http.Error(w, "Unable to fetch artists", http.StatusInternalServerError)
+		return
+	}
+	// Variable for filtered and search artists
+	query := strings.ToLower(r.URL.Query().Get("q"))
+	dates := r.URL.Query().Get("dates")
+	memberCount, _ := strconv.Atoi(r.URL.Query().Get("memberCount"))
+	idParam := r.URL.Query().Get("id")
+	// Call the function to display the Artists Details
+	if idParam != "" {
+		displayArtistDetails(w, idParam)
+		return
+	}
+	// Variable to filtered the artists
+	var filtered []Artist
+	// Read all artists informations
+	for _, artist := range artists {
+		// Search the artists
+		if query != "" && !strings.Contains(strings.ToLower(artist.Name), query) &&
+			!strings.Contains(strings.ToLower(strings.Join(artist.Relations, " ")), query) {
+			continue
+		}
+		// Filtered the artists
+		matchesDate := dates == "" || containsDate(artist.Dates, dates)
+		matchesMembers := memberCount == 0 || len(artist.Relations) == memberCount
+
+		if matchesDate && matchesMembers {
+			filtered = append(filtered, artist)
+		}
+	}
+	// Check if the templates is working
+	tmpl, err := template.New("artists.html").Funcs(template.FuncMap{
+		"split": strings.Split,
+	}).ParseFiles("web/html/artists.html")
+	if err != nil {
+		log.Printf("Error loading template: %v", err)
+		http.Error(w, "Unable to load template", http.StatusInternalServerError)
+		return
+	}
+	// Get the details summary artist struct
+	type ArtistSummary struct {
+		ID        int      `json:"id"`
+		Name      string   `json:"name"`
+		Image     string   `json:"image"`
+		Dates     []string `json:"dates"`
+		Locations string   `json:"locations"`
+		Relations []string `json:"members"`
+	}
+	// Check only these options for the filtered artists
+	var artistSummaries []ArtistSummary
+	for _, artist := range filtered {
+		artistSummaries = append(artistSummaries, ArtistSummary{
+			ID:        artist.ID,
+			Name:      artist.Name,
+			Image:     artist.Image,
+			Dates:     artist.Dates,
+			Locations: artist.Locations,
+			Relations: artist.Relations,
+		})
+	}
+	// Defined the struct for the details of the summary artists
+	data := struct {
+		Artists []ArtistSummary
+	}{
+		Artists: artistSummaries,
+	}
+	if err := tmpl.Execute(w, data); err != nil {
+		log.Printf("Error rendering template: %v", err)
+		http.Error(w, "Unable to render template", http.StatusInternalServerError)
+	}
+}*/
+
 func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 	// Handler for the location of the artists
 	place := r.URL.Query().Get("place")
@@ -283,6 +388,7 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Unable to render template", http.StatusInternalServerError)
 	}
 }
+
 
 // Function checks if a target date is in a list of dates
 func containsDate(dates []string, targetDate string) bool {
