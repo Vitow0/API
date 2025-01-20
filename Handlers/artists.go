@@ -24,7 +24,7 @@ type Artist struct {
 	Relations    []string `json:"members"`
 }
 
-// Function to display data from the API
+// Function to fetch data from the API
 func FetchArtists() ([]Artist, error) {
 	// get the API fo the artists
 	response, err := http.Get("https://groupietrackers.herokuapp.com/api/artists")
@@ -37,11 +37,13 @@ func FetchArtists() ([]Artist, error) {
 	if err := json.NewDecoder(response.Body).Decode(&artists); err != nil {
 		return nil, err
 	}
+	// call the function FetchArtistDates to fetch the dates for artists
 	artistDates, err := FetchArtistDates()
 	if err != nil {
 		return nil, err
 	}
 	for i := range artists {
+		// call the function FetchArtistDates to fetch the location for artists
 		locations, err := FetchLocationsForArtist(artists[i].ID)
 		if err == nil {
 			artists[i].Locations = strings.Join(locations, ", ")
@@ -51,7 +53,7 @@ func FetchArtists() ([]Artist, error) {
 	return artists, nil
 }
 
-// Function to display artist dates from the API
+// Function to fetch artist dates from the API
 func FetchArtistDates() (map[int][]string, error) {
 	// get the API for the dates artists
 	response, err := http.Get("https://groupietrackers.herokuapp.com/api/dates")
@@ -59,7 +61,9 @@ func FetchArtistDates() (map[int][]string, error) {
 		return nil, err
 	}
 	defer response.Body.Close()
+	// get data response
 	var dateResponse struct {
+		// set Index struct for artists date
 		Index []struct {
 			ID    int      `json:"id"`
 			Dates []string `json:"dates"`
@@ -75,7 +79,7 @@ func FetchArtistDates() (map[int][]string, error) {
 	return artistDates, nil
 }
 
-// Function to display locations for a given artist
+// Function to fetch locations for a given artist
 func FetchLocationsForArtist(artistID int) ([]string, error) {
 	// get the API for the locations
 	response, err := http.Get(fmt.Sprintf("https://groupietrackers.herokuapp.com/api/locations/%d", artistID))
@@ -83,6 +87,7 @@ func FetchLocationsForArtist(artistID int) ([]string, error) {
 		return nil, err
 	}
 	defer response.Body.Close()
+	// get location data for the location of the artists
 	var locationData struct {
 		Locations []string `json:"locations"`
 	}
@@ -92,9 +97,9 @@ func FetchLocationsForArtist(artistID int) ([]string, error) {
 	return locationData.Locations, nil
 }
 
-// Function fetches latitude and longitude for a given address in a map
+// Function to fetches latitude and longitude for a given address in a map
 func GetCoordinates(address string) (float64, float64, error) {
-	apiKey := "34a441c385754c569b0b89e63fc51b85"			// API Key for the map
+	apiKey := "34a441c385754c569b0b89e63fc51b85"              // API Key for the map
 	baseURL := "https://api.opencagedata.com/geocode/v1/json" // URL for the map
 
 	// set parameters to display the map API
@@ -127,7 +132,7 @@ func GetCoordinates(address string) (float64, float64, error) {
 	return geoResponse.Results[0].Geometry.Lat, geoResponse.Results[0].Geometry.Lng, nil
 }
 
-// Function to displays artist details in JSON format
+// Function to displays artist details in json format
 func displayArtistDetails(w http.ResponseWriter, idStr string) {
 	id, err := strconv.Atoi(idStr)
 	if err != nil {
@@ -139,6 +144,7 @@ func displayArtistDetails(w http.ResponseWriter, idStr string) {
 		http.Error(w, "Unable to fetch artists", http.StatusInternalServerError)
 		return
 	}
+	// Read all artists informations (only the ID here)
 	for _, artist := range artists {
 		if artist.ID == id {
 			w.Header().Set("Content-Type", "application/json")
@@ -146,26 +152,26 @@ func displayArtistDetails(w http.ResponseWriter, idStr string) {
 
 				// get the struct for all the details of the artists
 				struct {
-				ID           int      `json:"id"`
-				Name         string   `json:"name"`
-				Image        string   `json:"image"`
-				CreationDate int      `json:"creationDate"`
-				FirstAlbum   string   `json:"firstAlbum"`
-				Dates        []string `json:"dates"`
-				Locations    string   `json:"locations"`
-				Relations    []string `json:"members"`
-				BackURL      string   `json:"back_url"`
-			}{
-				ID:           artist.ID,
-				Name:         artist.Name,
-				Image:        artist.Image,
-				CreationDate: artist.CreationDate,
-				FirstAlbum:   artist.FirstAlbum,
-				Dates:        artist.Dates,
-				Locations:    artist.Locations,
-				Relations:    artist.Relations,
-				BackURL:      "http://localhost:8080/artists",
-			})
+					ID           int      `json:"id"`
+					Name         string   `json:"name"`
+					Image        string   `json:"image"`
+					CreationDate int      `json:"creationDate"`
+					FirstAlbum   string   `json:"firstAlbum"`
+					Dates        []string `json:"dates"`
+					Locations    string   `json:"locations"`
+					Relations    []string `json:"members"`
+					BackURL      string   `json:"back_url"`
+				}{
+					ID:           artist.ID,
+					Name:         artist.Name,
+					Image:        artist.Image,
+					CreationDate: artist.CreationDate,
+					FirstAlbum:   artist.FirstAlbum,
+					Dates:        artist.Dates,
+					Locations:    artist.Locations,
+					Relations:    artist.Relations,
+					BackURL:      "http://localhost:8080/artists",
+				})
 			return
 		}
 	}
@@ -174,6 +180,7 @@ func displayArtistDetails(w http.ResponseWriter, idStr string) {
 
 // Function to handles artist-related requests
 func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
+	// Handler for the location of the artists
 	place := r.URL.Query().Get("place")
 	if place != "" {
 		lat, lng, err := GetCoordinates(place)
@@ -201,27 +208,33 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		return
 	}
+	// Display the summary details from the function FetchArtists
 	artists, err := FetchArtists()
 	if err != nil {
 		log.Printf("Error fetching artists: %v", err)
 		http.Error(w, "Unable to fetch artists", http.StatusInternalServerError)
 		return
 	}
+	// variable for filtered and search artists
 	query := strings.ToLower(r.URL.Query().Get("q"))
 	dates := r.URL.Query().Get("dates")
 	memberCount, _ := strconv.Atoi(r.URL.Query().Get("memberCount"))
 	idParam := r.URL.Query().Get("id")
-
+	// call the function to display the Artists Details
 	if idParam != "" {
 		displayArtistDetails(w, idParam)
 		return
 	}
+	// variable to filtered the artists
 	var filtered []Artist
+	// Read all artists informations
 	for _, artist := range artists {
+		// search the artists
 		if query != "" && !strings.Contains(strings.ToLower(artist.Name), query) &&
 			!strings.Contains(strings.ToLower(strings.Join(artist.Relations, " ")), query) {
 			continue
 		}
+		// filtered the artists
 		matchesDate := dates == "" || containsDate(artist.Dates, dates)
 		matchesMembers := memberCount == 0 || len(artist.Relations) == memberCount
 
@@ -229,6 +242,7 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 			filtered = append(filtered, artist)
 		}
 	}
+	// Check if the templates is working
 	tmpl, err := template.New("artists.html").Funcs(template.FuncMap{
 		"split": strings.Split,
 	}).ParseFiles("web/html/artists.html")
@@ -246,6 +260,7 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 		Locations string   `json:"locations"`
 		Relations []string `json:"members"`
 	}
+	// check only these options for the filtered artists
 	var artistSummaries []ArtistSummary
 	for _, artist := range filtered {
 		artistSummaries = append(artistSummaries, ArtistSummary{
@@ -272,12 +287,15 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 // Function to checks if a target date is in a list of dates
 func containsDate(dates []string, targetDate string) bool {
 	layout := "02-01-2006"
+	// accept the date without this sign "*"
 	targetDate = strings.TrimPrefix(targetDate, "*")
 	target, err := time.Parse(layout, targetDate)
 	if err != nil {
 		return false
 	}
+	// read all the dates from artists
 	for _, date := range dates {
+		// accept the date with this sign "*"
 		cleanDate := strings.TrimPrefix(date, "*")
 		parsedDate, err := time.Parse(layout, cleanDate)
 		if err == nil && parsedDate.Equal(target) {

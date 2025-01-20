@@ -16,7 +16,7 @@ body{
     list-style-type: none; 
     padding: 0;
 }li{
-    margin: 20px 0; 
+    margin: 20px 0;
     padding: 10px;
     border: 1px solid #ffcc00; 
     border-radius: 5px; 
@@ -81,6 +81,7 @@ body{
     color: white; 
     transition: color 0.3s; 
 }.locations a:hover{
+    text-decoration: none;
     color: black; 
 }.reset_button{
     padding: 10px 15px;
