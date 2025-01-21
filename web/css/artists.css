@@ -16,7 +16,7 @@ body{
     list-style-type: none; 
     padding: 0;
 }li{
-    margin: 20px 0; 
+    margin: 20px 0;
     padding: 10px;
     border: 1px solid #ffcc00; 
     border-radius: 5px; 
@@ -24,7 +24,7 @@ body{
     transition: box-shadow 0.3s; 
 }li:hover{
     box-shadow: 0 0 20px rgba(255, 204, 0, 0.8); 
-}.search, .filters, .details_button{
+}.filters, .details_button{
     text-decoration: none;
     color: #ffffff; 
     background-color: #ff6600; 
@@ -33,7 +33,7 @@ body{
     margin: 5px;
     display: inline-block;
     transition: background-color 0.3s, transform 0.3s; 
-}.search:hover, .filters:hover, .details_button:hover{
+}.filters:hover, .details_button:hover{
     background-color: #cc5200; 
     transform: scale(1.05); 
 }#myBtn{
@@ -81,17 +81,6 @@ body{
     color: white; 
     transition: color 0.3s; 
 }.locations a:hover{
+    text-decoration: none;
     color: black; 
-}.reset_button{
-    padding: 10px 15px;
-    background-color: #ff6600;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.3s, transform 0.3s;
-}.reset_button:hover{
-    background-color: #cc5200; 
-    transform: scale(1.05);
 }
