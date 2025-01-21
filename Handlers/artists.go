@@ -177,8 +177,7 @@ func displayArtistDetails(w http.ResponseWriter, idStr string) {
 	}
 	http.Error(w, "Artist not found", http.StatusNotFound)
 }
-
-// Function to handles artist-related requests
+// Function to handle the templates artists
 func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 	// Handler for the location of the artists
 	place := r.URL.Query().Get("place")
@@ -251,7 +250,7 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Unable to load template", http.StatusInternalServerError)
 		return
 	}
-	// Get the details summary artist structs
+	// Get the details summary artist struct
 	type ArtistSummary struct {
 		ID        int      `json:"id"`
 		Name      string   `json:"name"`
@@ -283,6 +282,7 @@ func ArtistsHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Unable to render template", http.StatusInternalServerError)
 	}
 }
+
 
 // Function checks if a target date is in a list of dates
 func containsDate(dates []string, targetDate string) bool {

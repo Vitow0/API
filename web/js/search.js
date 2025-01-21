@@ -1,44 +1,22 @@
-document.addEventListener('DOMContentLoaded', function() {
-    document.getElementById('search-form').addEventListener('submit', function(event) {
-        event.preventDefault(); 
+// Make sure the DOM is fully loaded before manipulating elements
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('search-query');
+    const artistList = document.querySelector('ul');
+    // Update the search of the user
+    searchInput.addEventListener('input', () => {
+        const query = searchInput.value;
+        // Get artist data
+        fetch(`/artists?q=${encodeURIComponent(query)}`)
+            .then(response => response.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const newArtistList = doc.querySelector('ul');
+                artistList.innerHTML = newArtistList.innerHTML;
+            })
+            // If there is a problem, then print this error
+            .catch(err => {
+                console.error('Error fetching artists:', err);
+            });
     });
-
-    function filterArtists() {
-        const query = document.getElementById('search-query').value;
-        const dates = document.getElementById('dates').value;
-        const memberCount = document.getElementById('memberCount').value;
-    
-        fetch(`/artists?q=${encodeURIComponent(query)}&dates=${encodeURIComponent(dates)}&memberCount=${encodeURIComponent(memberCount)}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.text();
-            })
-            .then(text => {
-                console.log('Raw response:', text); 
-                try {
-                    return JSON.parse(text); 
-                } catch (e) {
-                    throw new Error(`Invalid JSON: ${e.message}`);
-                }
-            })
-            .then(data => updateArtistList(data))
-            .catch(error => console.error('Error parsing JSON:', error));
-    }
-
-    function updateArtistList(artists) {
-        const list = document.querySelector('ul');
-        list.innerHTML = '';
-
-        artists.forEach(artist => {
-            const listItem = document.createElement('li');
-            listItem.innerHTML = `
-                <h2>${artist.Name}</h2>
-                <img src="${artist.Image}" alt="Image of ${artist.Name}" width="150">
-                <!-- Autres détails -->
-            `;
-            list.appendChild(listItem);
-        });
-    }
 });
